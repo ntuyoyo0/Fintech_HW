@@ -1,7 +1,10 @@
 import Yahoo
 import pandas as pd
 
-Yahoo_ETFs = ['VAMO','TVIX','ZIV','VIIX']
+Yahoo_ETFs_1 = ['VAMO','TVIX','ZIV','VIIX']
+Yahoo_ETFs_2 = ['HTUS','FLAG','FTLS','FMF','QAI','MNA','CPI','QMN','MCRO','QLS','QED','RLY','WTMF','DYLS']
+Yahoo_ETFs_3 = ['BTAL','MOM','DIVA','SIZ','CHEP','XVZ','HDG','RALS','ALTS','MRGR','SVXY','UVXY','VIXY','VIXM','DIVY']
+Yahoo_ETFs = Yahoo_ETFs_1 + Yahoo_ETFs_2 + Yahoo_ETFs_3
 dfs = []
 
 # crawler on Yahoo
