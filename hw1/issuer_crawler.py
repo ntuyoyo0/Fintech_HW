@@ -4,6 +4,8 @@ import datetime
 from pathlib import Path
 import time
 import os
+import csv
+import glob
 
 import requests
 from bs4 import BeautifulSoup as bs
@@ -19,6 +21,28 @@ download_location = './'
 csv_filepath=r'./csv_files/'
 
 # df_info = pd.read_csv(info_file)
+
+def IndexIQ_csv_proc(symbol):
+    
+    symbol_filename = symbol + '.csv'
+    
+    symbol_csvfile = os.path.join('./csv_files', symbol_filename)
+    tmp_csvfile = os.path.join('./csv_files', 'output.csv')
+    
+    with open(symbol_csvfile) as csvfile:
+        rows = csv.reader(csvfile)
+        next(csvfile, None)
+        next(csvfile, None)
+        next(csvfile, None)
+
+        with open(tmp_csvfile, 'w') as writefile:
+            writer = csv.writer(writefile)
+            for row in rows:
+                writer.writerow(row)
+
+    os.remove(symbol_csvfile)
+    os.rename(tmp_csvfile, symbol_csvfile)
+
 
 def WisdomTree(df_info):
     
@@ -47,6 +71,7 @@ def WisdomTree(df_info):
         wget.download(data_link, out=html_filename)
         df_list = pd.read_html(html_filename)
         df = df_list[0]
+        df = df[['Date', 'Nav']]
         df.to_csv(csv_filepath + symbol + ".csv" ,index=0)
         print('\n')
         print(symbol + " is downloaded")
@@ -59,9 +84,6 @@ def IndexIQ(df_info):
     
     df_IndexIQ = df_info[df_info['issuer'] == 'IndexIQ']
     symbols = df_IndexIQ['symbol'].tolist()
-    
-    rename_command = "mv *.csv "
-    move_command = "mv XXX.csv ./csv_files"
 
     options = webdriver.ChromeOptions()
     prefs = {"download.default_directory": download_location}
@@ -70,8 +92,6 @@ def IndexIQ(df_info):
     for symbol in symbols:
 
         xpath_pattern = "//a[contains(text(), 'XXX')]"
-        rename_command = "mv *.csv "
-        move_command = "mv XXX.csv ./csv_files"
 
         target_url = os.path.join('https://www.nylinvestments.com/IQetfs', 'etfs')
         driver = webdriver.Chrome(chrome_driver_path, chrome_options=options)
@@ -87,11 +107,11 @@ def IndexIQ(df_info):
 
         time.sleep(3)
 
-        rename_command = rename_command + symbol + ".csv"
-        os.system(rename_command)
-
-        move_command = move_command.replace('XXX', symbol)
-        os.system(move_command)
+        filename_list = glob.glob('./*.csv')
+        filename = filename_list[0]
+        os.rename(filename, os.path.join('./csv_files', symbol+'.csv'))
+        
+        IndexIQ_csv_proc(symbol)
 
         print(symbol + " is downloaded")
         driver.quit()
