@@ -5,7 +5,7 @@
     * BytesIO:同requests
 
 * 請用流程圖的方式告訴我們你是怎麼抓到目標資料
-
+![image](https://github.com/leo08260826/Fintech_HW/blob/master/hw1/Diagram.png)
 
 * 5種可能錯誤狀況及解決方法
     * 網站可能有反爬蟲機制，短時間抓取多筆資料造成連線逾時，可用延時方式解決(time.sleep())
