@@ -13,6 +13,6 @@
 `$ python3 stock_crawler_ntuyoyo0.py`
 會產生一個 df.csv 的檔案 （co-occurence matrix) 
 可藉由 Genphi 產生共線圖
-df_20.csv 為此實作的範例
-cor_graph.png 為此實作透過 Genphi 的共現圖範例
+    * df_20.csv 為此實作的範例
+    * cor_graph.png 為此實作透過 Genphi 的共現圖範例
 
