@@ -41,7 +41,7 @@ dictionary = {}
 for item in stocks:
 	col = []
 	for i in range(len(start_time)):
-		col.append(num(crawler(item,test2[i],test3[i],list_up,list_mid,list_down)))
+		col.append(num(crawler(item,start_time[i],end_time[i],list_up,list_mid,list_down)))
 	dictionary.update({item:col})
 
 df = pd.DataFrame(dictionary)
