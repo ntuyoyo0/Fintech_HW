@@ -9,7 +9,7 @@
 會產生一個 out.csv 的檔案 （co-occurence matrix) 
 可藉由 Gephi 產生共線圖
 
-2. 第二種實作
+2. 第二種實作 (須使用 linux 版本的 chrome 執行)
 `$ python3 stock_crawler_ntuyoyo0.py`
 會產生一個 df.csv 的檔案 （co-occurence matrix) 
 可藉由 Gephi 產生共線圖
