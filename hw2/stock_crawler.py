@@ -74,11 +74,6 @@ def crawler(name,start_date,end_date,list_up,list_mid,list_down):
 
 	browser.quit()
 
-	# if flag<0:
-	# 	return "down"
-	# elif flag>=0:
-	# 	return "up"
-
 	if flag2 == 1:
 		return "down"
 	else:

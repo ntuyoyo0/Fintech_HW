@@ -14,7 +14,7 @@ stocks3 = ['友達','中華電','聯發科','可成','台灣高鐵','彰銀','�
 stocks4 = ['開發金','玉山金','元大金','兆豐金','台新金','永豐金','中信金','第一金','統一超','大立光']
 stocks5 = ['台灣大','群創','日月光投控','遠傳','和碩','中租-KY','上海商銀','合庫金','台塑化','寶成']
 
-stocks = stocks1 + stocks2 + stocks3 + stocks4 + stocks5
+stocks = stocks1 + stocks2
 
 list_up = []
 list_mid = []
@@ -34,13 +34,13 @@ for line in fp_down.readlines():
 	list_down.append(line.strip('\n'))
 fp_down.close()
 
-test2 = ['1/1/2019','2/1/2019','3/1/2019']
-test3 = ['1/31/2019','2/28/2019','3/31/2019']
+start_time = ['11/1/2018','12/1/2018','1/1/2019','2/1/2019','3/1/2019']
+end_time = ['11/30/2018','12/31/2018','1/31/2019','2/28/2019','3/31/2019']
 
 dictionary = {}
-for item in stocks1:
+for item in stocks:
 	col = []
-	for i in range(3):
+	for i in range(len(start_time)):
 		col.append(num(crawler(item,test2[i],test3[i],list_up,list_mid,list_down)))
 	dictionary.update({item:col})
 
