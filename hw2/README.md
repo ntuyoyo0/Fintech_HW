@@ -5,15 +5,15 @@
 
 執行方式
 1. 第一種實作
-`$ python3 stock_anay_main.py`
+* `$ python3 stock_anay_main.py`
 會產生一個 out.csv 的檔案 （co-occurence matrix) 
 可藉由 Gephi 產生共線圖
 
 2. 第二種實作 (須使用 linux 版本的 chrome 執行)
-`$ python3 stock_crawler_ntuyoyo0.py`
+* `$ python3 stock_crawler_ntuyoyo0.py`
 會產生一個 df.csv 的檔案 （co-occurence matrix) 
 可藉由 Gephi 產生共線圖
     * out_ntuyoyo0.csv 為此實作的範例
-    * cor_graph_ntuyoyo0.png 為此實作透過 Genphi 的共現圖範例
+    * cor_graph_ntuyoyo0.png 為此實作透過 Gephi 的共現圖範例
     ![image](https://github.com/leo08260826/Fintech_HW/blob/master/hw2/cor_graph_ntuyoyo0.png)
 
