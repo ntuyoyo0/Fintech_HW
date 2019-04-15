@@ -7,6 +7,8 @@
 1. 第一種實作
 * `$ python3 stock_anay_main.py`
 * 會產生一個 out.csv 的檔案 （co-occurence matrix)，可藉由 Gephi 產生共線圖
+	* out.csv 為此實作的範例(數字在excel會是亂碼)
+	* cor_graph.png 為此實作透過 Gephi 的共現圖範例
 
 2. 第二種實作 (須使用 linux 版本的 chrome 執行)
 * `$ python3 stock_crawler_ntuyoyo0.py`
