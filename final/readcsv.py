@@ -2,6 +2,29 @@ import csv
 import datetime
 import pandas as pd
 
+# def readminus(csv_name):
+# 	#input:string
+# 	#output:dict
+# 	fp = open(csv_name,"r")
+# 	flag = 1
+# 	year_month_to_CD = {}
+# 	for item in csv.reader(fp):
+# 		if flag:
+# 			flag = 0
+# 			continue
+# 		print(item)
+# 		print(item[0])
+# 		temp_datetime = datetime.datetime.strptime(item[0],"%YM%m")
+# 		print(temp_datetime)
+# 		temp_tuple = (temp_datetime.year,temp_datetime.month)
+# 		print(temp_tuple)
+# 		temp_CD = float(item[1])/52
+# 		year_month_to_CD[temp_tuple] = temp_CD
+
+# 	print(year_month_to_CD)
+# 	return year_month_to_CD
+
+
 def create_date_index(csv_name):
 	#create date to index for the dataframe
 	#input:string
@@ -24,25 +47,7 @@ def create_date_index(csv_name):
 	fp.close()
 	return date_to_index
 
-def current(current_name):
-	#cuculate current ratio
-	#input:str
-	#output:float
-
-	if current_name=="NTD":
-		return 1
-	if current_name=="USD":
-		return 30.87
-	if current_name=="RMB":
-		return 4.58
-	if current_name=="AUD":
-		return 21.67
-	if current_name=="ZAR":
-		return 2.15
-		
-	return 1
-
-def readcsv(csv_name,start,end):
+def readcsv(csv_name,start,end,CD_NUMBER):
 	#create dataframe of net value
 	#input:string/datetime/datetime
 	#output:dataframe(time,fund name)
@@ -62,16 +67,22 @@ def readcsv(csv_name,start,end):
 		if not(item[2] in date_to_dict):
 			temp_list = []
 			for i in range(len(date_to_index)):
-				temp_list.append(float(0))
+				temp_list.append('x')
 			temp_datetime = datetime.datetime.strptime(item[1],"%Y/%m/%d")
-			temp_float = current(item[3]) * float(item[4].replace(',',''))
+			try:
+				temp_float = float(item[6]) - CD_NUMBER
+			except:
+				temp_float = float(0) - CD_NUMBER
 			temp_list[date_to_index[temp_datetime]]=temp_float
 
 			temp_dict = {item[2]:temp_list}
 			date_to_dict.update(temp_dict)
 		else:
 			temp_datetime = datetime.datetime.strptime(item[1],"%Y/%m/%d")
-			temp_float = current(item[3]) * float(item[4].replace(',',''))
+			try:
+				temp_float = float(item[6]) - CD_NUMBER
+			except:
+				temp_float = float(0) - CD_NUMBER
 			date_to_dict[item[2]][date_to_index[temp_datetime]]=temp_float
 
 	fp.close()
