@@ -15,8 +15,15 @@ if __name__=='__main__':
 	df = readcsv.readcsv(CSV_NAME,start,end,CD_NUMBER)
 	print("finish df")
 
-	cov = calculate.cal_cov(df)
+	cov = calculate.cal_cov(df,"origin")
+	print(cov.head(10))
+
+	print("===============")
+
+	cov_down = calculate.cal_cov(df,"downside")
+	print(cov_down.head(10))
+
 	print("finish cov")
 
-	risk = calculate.cal_co_risk(test_list_of_fund,test_ratio_of_fund,cov)
-	print(risk)
+	# risk = calculate.cal_co_risk(test_list_of_fund,test_ratio_of_fund,cov)
+	# print(risk)

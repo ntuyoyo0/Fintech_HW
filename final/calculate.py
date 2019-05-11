@@ -31,8 +31,8 @@ def cal_inner_list(a,b):
 	else:
 		return float(sumAll)/float(numAll)
 
-def cal_cov(df):
-	#input:df
+def cal_cov(df,mode):
+	#input:df/string("origin" or "downside")
 	#output:df
 	
 	# mean
@@ -45,8 +45,10 @@ def cal_cov(df):
 		for item in df[col]:
 			if item == 'x':
 				temp_col.append('x')
-			else:
+			elif mode=="downside": #downside
 				temp_col.append(item-mean[col])
+			else: #origin
+				temp_col.append(min(item-mean[col],0))
 		new_df[col] = temp_col
 
 	# cov
@@ -67,7 +69,6 @@ def cal_cov(df):
 		i += 1
 	
 	output_df = output_df.rename(index=row_name)
-	print(output_df)
 
 	return output_df
 
