@@ -1,64 +1,49 @@
 import pandas as pd
 
-def cal_mean(df):
-	# input:df
-	# output:dict
-
-	mean={}
-	for col in df:
-		temp_sum = 0
-		temp_num = 0
-		for item in df[col]:
-			if item != 'x':
-				temp_sum += float(item)
-				temp_num +=1
-		temp_mean = float(temp_sum)/float(temp_num)
-		mean[col] = temp_mean
-	return mean
-
-def cal_inner_list(a,b):
+def cal_cov_list(a,b,mode):
 	# input:list/list
 	# output:float
-	sumAll=0
-	numAll=0
+
+	# mean 
+	temp_sumA = 0
+	temp_sumB = 0
+	numAll = 0
 	for i in range(len(a)):
 		if a[i]!='x' and b[i]!='x':
-			sumAll += a[i]*b[i]
+			temp_sumA += a[i]
+			temp_sumB += b[i]
 			numAll += 1
-	
+
+	# no intersection
 	if numAll == 0:
 		return 0
-	else:
-		return float(sumAll)/float(numAll)
+
+	meanA = float(temp_sumA)/float(numAll)
+	meanB = float(temp_sumB)/float(numAll)
+
+	# cov
+	sumAll=0
+
+	for i in range(len(a)):
+		if a[i]!='x' and b[i]!='x' and mode=="normal":
+			sumAll += (a[i]-meanA)*(b[i]-meanB)
+		elif a[i]!='x' and b[i]!='x' and mode=="downside":
+			sumAll += min((a[i]-meanA),0)*min((b[i]-meanB),0)
+
+	return float(sumAll)/float(numAll)
 
 def cal_cov(df,mode):
 	#input:df/string("origin" or "downside")
 	#output:df
-	
-	# mean
-	mean = cal_mean(df)
 
-	# origin num - mean
-	new_df = {}
-	for col in df:
-		temp_col = []
-		for item in df[col]:
-			if item == 'x':
-				temp_col.append('x')
-			elif mode=="downside": #downside
-				temp_col.append(item-mean[col])
-			else: #origin
-				temp_col.append(min(item-mean[col],0))
-		new_df[col] = temp_col
-
-	# cov
 	output_dict = {}
 	for colA in df:
 		temp_col = []
 		for colB in df:
-			covAB = cal_inner_list(new_df[colA],new_df[colB])
+			covAB = cal_cov_list(df[colA],df[colB],mode)
 			temp_col.append(covAB)
 		output_dict[colA] = temp_col
+		print(colA)
 
 	output_df = pd.DataFrame.from_dict(output_dict)
 	

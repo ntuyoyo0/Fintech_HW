@@ -15,13 +15,13 @@ if __name__=='__main__':
 	df = readcsv.readcsv(CSV_NAME,start,end,CD_NUMBER)
 	print("finish df")
 
-	cov = calculate.cal_cov(df,"origin")
+	cov = calculate.cal_cov(df,"normal")
 	print(cov.head(10))
 
-	print("===============")
+	# print("===============")
 
-	cov_down = calculate.cal_cov(df,"downside")
-	print(cov_down.head(10))
+	# cov_down = calculate.cal_cov(df,"downside")
+	# print(cov_down.head(10))
 
 	print("finish cov")
 
