@@ -6,7 +6,7 @@ Yahoo_ETFs_2 = ['HTUS','FLAG','FTLS','FMF','QAI','MNA','CPI','QMN','MCRO','QLS',
 Yahoo_ETFs_3 = ['BTAL','MOM','DIVA','SIZ','CHEP','XVZ','HDG','RALS','ALTS','MRGR','SVXY','UVXY','VIXY','VIXM','DIVY']
 Yahoo_ETFs = Yahoo_ETFs_1 + Yahoo_ETFs_2 + Yahoo_ETFs_3
 dfs = []
-INTERVAL = 7
+INTERVAL = 30
 
 # crawler on Yahoo
 # for i in Yahoo_ETFs:
@@ -88,9 +88,9 @@ C_last_dict = {}
 C_last_dict["C"]=C_rank
 C_last = pd.DataFrame.from_dict(C_last_dict)
 
-print(A_dict)
-print(A_last.head(10))
-print(B_dict)
-print(B_last.head(10))
+# print(A_dict)
+# print(A_last.head(10))
+# print(B_dict)
+# print(B_last.head(10))
 print(C_dict)
 print(C_last.head(10))

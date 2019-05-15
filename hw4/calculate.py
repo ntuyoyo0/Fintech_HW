@@ -86,20 +86,21 @@ def omega_(with_risk,no_risk):
 
 def Q_(df):
 	temp = []
-	for col in df:
-		function = "0"
-		x = symbols('x')
-		num = 0
-		for row in df.index:
-			data = round(df.at[row,col],5)
-			function += "+x**"+str(data)
-			num += 1
+	INTERVAL = 0.001
+	ERROR = 0.04
 
-		function += "-" + str(num)
-		print(function)
-		ans = solve(function+"-"+str(num),x)
-		print(ans)
-		# temp.append(ans)
+	for col in df:
+		print(col)
+		for x in np.arange(2,50,INTERVAL):
+			num = 0
+			for row in df.index:
+				data = df.at[row,col]
+				num += x**data
+			if abs(num - df.index.size) < ERROR:
+				print(x)
+				temp.append(x)
+				break
+
 
 	return temp
 	
