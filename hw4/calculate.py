@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 from math import sqrt, exp
+from sympy import symbols, solve
 
 def sort_by_value(d): 
 	items=d.items() 
@@ -85,15 +86,21 @@ def omega_(with_risk,no_risk):
 
 def Q_(df):
 	temp = []
-	ag = 1
 	for col in df:
-		expect = 0
+		function = "0"
+		x = symbols('x')
+		num = 0
 		for row in df.index:
-			expect += exp(ag*df.at[row,col])
-		expect /=df.index.size
-		# print(expect)
+			data = round(df.at[row,col],5)
+			function += "+x**"+str(data)
+			num += 1
 
-		temp.append(1)
+		function += "-" + str(num)
+		print(function)
+		ans = solve(function+"-"+str(num),x)
+		print(ans)
+		# temp.append(ans)
+
 	return temp
 	
 
