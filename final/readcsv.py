@@ -25,9 +25,9 @@ import pandas as pd
 # 	return year_month_to_CD
 
 
-def create_date_index(csv_name):
+def create_date_index(csv_name,start,end):
 	#create date to index for the dataframe
-	#input:string
+	#input:string/datetime/datetime
 	#output:dict(datetime->int)
 
 	fp = open(csv_name,'r')
@@ -41,9 +41,15 @@ def create_date_index(csv_name):
 			continue
 
 		temp_datetime = datetime.datetime.strptime(item[1],"%Y/%m/%d")
+		if temp_datetime < start :
+			break
+		elif temp_datetime > end:
+			continue
+
 		if not(temp_datetime in date_to_index):
 			date_to_index[temp_datetime] = index
 			index+=1
+
 	fp.close()
 	return date_to_index
 
@@ -52,7 +58,7 @@ def readcsv(csv_name,start,end,CD_NUMBER):
 	#input:string/datetime/datetime
 	#output:dataframe(time,fund name)
 
-	date_to_index=create_date_index(csv_name)
+	date_to_index=create_date_index(csv_name,start,end)
 
 	#create dictionary for dataframe
 	date_to_dict ={}
@@ -64,11 +70,17 @@ def readcsv(csv_name,start,end,CD_NUMBER):
 			flag=0
 			continue
 
+		temp_datetime = datetime.datetime.strptime(item[1],"%Y/%m/%d")
+		#print(temp_datetime,start,end)
+		if temp_datetime < start :
+			break
+		elif temp_datetime > end:
+			continue
+
 		if not(item[2] in date_to_dict):
 			temp_list = []
 			for i in range(len(date_to_index)):
 				temp_list.append('x')
-			temp_datetime = datetime.datetime.strptime(item[1],"%Y/%m/%d")
 			try:
 				temp_float = float(item[6]) - CD_NUMBER
 			except:
@@ -78,7 +90,6 @@ def readcsv(csv_name,start,end,CD_NUMBER):
 			temp_dict = {item[2]:temp_list}
 			date_to_dict.update(temp_dict)
 		else:
-			temp_datetime = datetime.datetime.strptime(item[1],"%Y/%m/%d")
 			try:
 				temp_float = float(item[6]) - CD_NUMBER
 			except:
