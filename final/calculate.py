@@ -37,6 +37,10 @@ def cal_cor_list(a,b,mode):
 			sumA += min((a[i]-meanA),0)*min((a[i]-meanA),0)
 			sumB += min((b[i]-meanB),0)*min((a[i]-meanB),0)
 
+	# no downside relation
+	if sumA==0 or sumB==0:
+		return 0
+
 
 	return float(sumAll)/sqrt((float(sumA)*float(sumB)))
 
