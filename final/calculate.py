@@ -35,14 +35,14 @@ def cal_cor_list(a,b,mode):
 		elif a[i]!='x' and b[i]!='x' and mode=="downside":
 			sumAll += min((a[i]-meanA),0)*min((b[i]-meanB),0)
 			sumA += min((a[i]-meanA),0)*min((a[i]-meanA),0)
-			sumB += min((b[i]-meanB),0)*min((a[i]-meanB),0)
+			sumB += min((b[i]-meanB),0)*min((b[i]-meanB),0)
 
 	# no downside relation
 	if sumA==0 or sumB==0:
 		return 0
 
 
-	return float(sumAll)/sqrt((float(sumA)*float(sumB)))
+	return float(sumAll)/sqrt(float(sumA)*float(sumB))
 
 def cal_cor(df,mode):
 	#input:df/string("origin" or "downside")
