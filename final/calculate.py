@@ -65,26 +65,47 @@ def cal_cor(df,mode):
 
 	return output_df
 
+def cal_cov_list(colA,colB,meanA,meanB,useful):
+	covAB = 0
+	for i in useful:
+		covAB += (colA[i]-meanA)*(colB[i]-meanB)
+	return covAB
 
-# def cal_co_risk(list_of_fund,ratio_of_fund,cov):
-# 	# input:list(str)/list(float)/df
-# 	# output: float
-# 	risk=0
-# 	num = len(list_of_fund)
 
-# 	for i in range(num):
-# 		weight = ratio_of_fund[i]
-# 		variance = cov.at[list_of_fund[i],list_of_fund[i]]
-# 		risk += weight*weight*variance
+def cal_co_risk(list_of_fund,ratio_of_fund,raw_data):
+	# input:list(str)/list(float)/df
+	# output: float
+	
+	fund_num = len(list_of_fund)
+	data_num = len(raw_data[list_of_fund[0]])
 
-# 	for i in range(num):
-# 		for j in range(num):
-# 			if i==j:
-# 				continue
-# 			weight_i=ratio_of_fund[i]
-# 			weight_j=ratio_of_fund[j]
-# 			covariance = cov.at[list_of_fund[i],list_of_fund[j]]
-# 			risk += weight_j*weight_i*covariance
+	#useful data
+	useful = []
+	for i in range(data_num):
+		flag = 0
+		for j in range(fund_num):
+			if raw_data.iat[i,j] == 'x':
+				flag+=1
 
-# 	return risk
+		if flag == 0:
+			useful.append(i)
+
+	#mean list
+	mean = []
+	for i in range(fund_num):
+		temp_sum = 0
+		for j in useful:
+			temp_sum += raw_data.iat[j,i]
+		mean.append(float(temp_sum)/float(len(useful)))
+
+	#calculate
+	risk=0
+	for i in range(fund_num):
+		for j in range(fund_num):
+			colA = raw_data[list_of_fund[i]]
+			colB = raw_data[list_of_fund[j]]
+			covAB = cal_cov_list(colA,colB,mean[i],mean[j],useful)
+			risk += ratio_of_fund[i]*ratio_of_fund[j]*covAB
+
+	return risk
 

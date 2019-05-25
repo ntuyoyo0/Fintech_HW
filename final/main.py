@@ -18,15 +18,12 @@ if __name__=='__main__':
 	df = readcsv.readcsv(CSV_NAME,start,end,CD_NUMBER)
 	print("finish df")
 
-	cor = calculate.cal_cor(df,"normal")
-	print(cor)
-
+	# cor = calculate.cal_cor(df,"normal")
+	# print(cor.head(10))
 	# print("===============")
-
 	# cov_down = calculate.cal_cov(df,"downside")
 	# print(cov_down.head(10))
+	# print("finish cor")
 
-	print("finish cor")
-
-	# risk = calculate.cal_co_risk(test_list_of_fund,test_ratio_of_fund,cov)
-	# print(risk)
+	risk = calculate.cal_co_risk(test_list_of_fund,test_ratio_of_fund,df)
+	print(risk)
