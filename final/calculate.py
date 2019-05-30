@@ -1,7 +1,7 @@
 import pandas as pd
 from math import sqrt
 
-def cal_cor_list(a,b,mode):
+def cal_cor_list(a,b,mode="normal"):
 	# input:list/list
 	# output:float
 
@@ -69,14 +69,17 @@ def cal_cor(df,mode):
 
 	return output_df
 
-def cal_cov_list(colA,colB,meanA,meanB,useful):
+def cal_cov_list(colA,colB,meanA,meanB,useful,mode):
 	covAB = 0
 	for i in useful:
-		covAB += (colA[i]-meanA)*(colB[i]-meanB)
+		if mode == "normal":
+			covAB += (colA[i]-meanA)*(colB[i]-meanB)
+		elif mode == "downside":
+			covAB += min((colA[i]-meanA),0)*min((colB[i]-meanB),0)
 	return covAB
 
 
-def cal_co_risk(list_of_fund,ratio_of_fund,raw_data):
+def cal_co_risk(list_of_fund,ratio_of_fund,raw_data,mode="normal"):
 	# input:list(str)/list(float)/df
 	# output: float
 	
@@ -108,7 +111,7 @@ def cal_co_risk(list_of_fund,ratio_of_fund,raw_data):
 		for j in range(fund_num):
 			colA = raw_data[list_of_fund[i]]
 			colB = raw_data[list_of_fund[j]]
-			covAB = cal_cov_list(colA,colB,mean[i],mean[j],useful)
+			covAB = cal_cov_list(colA,colB,mean[i],mean[j],useful,mode)
 			risk += ratio_of_fund[i]*ratio_of_fund[j]*covAB
 
 	return risk
