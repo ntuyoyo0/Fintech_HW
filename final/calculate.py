@@ -90,19 +90,19 @@ def cal_co_risk(list_of_fund,ratio_of_fund,raw_data,mode="normal"):
 	useful = []
 	for i in range(data_num):
 		flag = 0
-		for j in range(fund_num):
-			if raw_data.iat[i,j] == 'x':
+		for col in list_of_fund:
+			if raw_data[col][i] == 'x':
 				flag+=1
-
+			print(col,i)
 		if flag == 0:
 			useful.append(i)
 
 	#mean list
 	mean = []
-	for i in range(fund_num):
+	for col in list_of_fund:
 		temp_sum = 0
 		for j in useful:
-			temp_sum += raw_data.iat[j,i]
+			temp_sum += raw_data[col][j]
 		mean.append(float(temp_sum)/float(len(useful)))
 
 	#calculate
@@ -115,4 +115,39 @@ def cal_co_risk(list_of_fund,ratio_of_fund,raw_data,mode="normal"):
 			risk += ratio_of_fund[i]*ratio_of_fund[j]*covAB
 
 	return risk
+
+def cal_co_return(list_of_fund,ratio_of_fund,raw_data):
+	# input:list(str)/list(float)/df
+	# output: float
+	
+	fund_num = len(list_of_fund)
+	data_num = len(raw_data[list_of_fund[0]])
+
+	#useful data
+	useful = []
+	for i in range(data_num):
+		flag = 0
+		for col in list_of_fund:
+			print(col,i)
+			if raw_data[col][i] == 'x':
+				flag+=1
+
+		if flag == 0:
+			useful.append(i)
+
+	#mean list
+	mean = []
+	for col in list_of_fund:
+		temp_sum = 0
+		for j in useful:
+			temp_sum += raw_data[col][j]
+		mean.append(float(temp_sum)/float(len(useful)))
+
+	# calculate return
+	all_return = 0
+	for i in range(fund_num):
+		all_return += ratio_of_fund[i]*mean[i]
+
+	return all_return
+
 
