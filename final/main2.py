@@ -1,22 +1,13 @@
-import readcsv
-import datetime
+import datetime, pickle, pylab, math
+import calculate, readcsv
+
 import pandas as pd
-import pickle
-import calculate
-from operator import attrgetter
-
-from scipy.cluster.hierarchy import dendrogram, linkage
-from scipy.cluster.hierarchy import cophenet
-from scipy.spatial.distance import pdist
-from scipy.cluster.hierarchy import fcluster
-import pylab
-
+import numpy as np
 import scipy.spatial.distance as ssd
 
-from itertools import permutations
-from itertools import combinations
-import numpy as np
-import math
+from operator import attrgetter
+from itertools import permutations, combinations
+from scipy.cluster.hierarchy import dendrogram, linkage, cophenet, fcluster
 
 class Portfolio:
     def __init__(self, index_q, labels, weights):
@@ -26,7 +17,7 @@ class Portfolio:
     def __str__(self):
         return 'index: ' + str(self.index_q) + '\n' + \
             'labels: ' + str(self.labels) + '\n' + \
-                'weights: ' + str(self.weights)
+            'weights: ' + str(self.weights)
 
 
 FUNDS_CSV_NAME = 'Funds_NAV_Return.csv'
@@ -43,10 +34,10 @@ start = datetime.datetime.strptime("2016/5/31","%Y/%m/%d")
 end = datetime.datetime.strptime("2019/5/31","%Y/%m/%d")
 
 #### User Input ####
-extraPortfolio_ratio = 0.25    ## the ratio that the user allow us to hold
+extraPortfolio_ratio = 0.2   ## the ratio that the user allow us to hold
 user_selectFunds = ['26396604B', '26286281F', '26331835G']
 user_selectFund_weights = [0.1, 0.3, 0.6]
-user_recommend_num = 3
+user_recommend_num = 2
 
 #### Transform user_selectFund_weights to user_portfolio_weights_arr ####
 ## Description: Multiply (1-extraPortfolio_ratio) to user_selectFund_weights
@@ -56,8 +47,8 @@ user_portfolio_weights = user_portfolio_weights_arr.tolist()
 #### Get the Funds' data ####
 ## Note: Has removed the funds that were closed or have few data
 df = readcsv.read_df(FUNDS_PREPROC_CSV_NAME)
-print("finish df")
-print('')
+# print("finish df")
+# print('')
 
 ## TODO: Check if user_selectFunds are in df.columns
 
@@ -65,7 +56,7 @@ print('')
 original_cluster_dict = {}
 with open('original_cluster_dict' + '.pkl', 'rb') as f:
     original_cluster_dict = pickle.load(f)
-print('original number of the groups:', len(original_cluster_dict))
+# print('original number of the groups:', len(original_cluster_dict))
 
 #### Get the bestFund_dict information ####
 bestFund_dict = {}
@@ -75,8 +66,8 @@ with open('bestFund_dict' + '.pkl', 'rb') as f:
 
 #### Get the bestFund_dict excluding the groups that user_selectFund was in ####
 new_bestFund_dict = calculate.cluster_preproc(original_cluster_dict, bestFund_dict, user_selectFunds)
-print('number of the groups after preproc:', len(new_bestFund_dict))
-print('')
+# print('number of the groups after preproc:', len(new_bestFund_dict))
+# print('')
 
 #### Pick the top 5 of bestFunds ####
 candidate_list = calculate.pick_candidate(new_bestFund_dict, candidate_num)
@@ -99,8 +90,14 @@ recommend_portfolio = min(portfolio_list,key=attrgetter('index_q'))
 
 #### Print the results ####
 for portfolio in portfolio_list:
-    print(portfolio)
-    print('')
+    pass
+    # print(portfolio)
+    # print('')
 
 print("recommend_portfolio:")
 print(recommend_portfolio)
+
+co_risk = calculate.cal_co_risk(recommend_portfolio.labels,recommend_portfolio.weights,df,"downside")
+co_return = calculate.cal_co_return(recommend_portfolio.labels,recommend_portfolio.weights,df)
+sortino = co_return/co_risk
+print(sortino)

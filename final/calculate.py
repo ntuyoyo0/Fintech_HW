@@ -88,9 +88,9 @@ def cal_cov_list(colA,colB,meanA,meanB,useful,mode):
 	covAB = 0
 	for i in useful:
 		if mode == "normal":
-			covAB += (colA[i]-meanA)*(colB[i]-meanB)
+			covAB += (float(colA[i])-meanA)*(float(colB[i])-meanB)
 		elif mode == "downside":
-			covAB += min((colA[i]-meanA),0)*min((colB[i]-meanB),0)
+			covAB += min((float(colA[i])-meanA),0)*min((float(colB[i])-meanB),0)
 	return covAB
 
 
@@ -108,7 +108,7 @@ def cal_co_risk(list_of_fund,ratio_of_fund,raw_data,mode="normal"):
 		for col in list_of_fund:
 			if raw_data[col][i] == 'x':
 				flag+=1
-			print(col,i)
+			# print(col,i)
 		if flag == 0:
 			useful.append(i)
 
@@ -117,7 +117,7 @@ def cal_co_risk(list_of_fund,ratio_of_fund,raw_data,mode="normal"):
 	for col in list_of_fund:
 		temp_sum = 0
 		for j in useful:
-			temp_sum += raw_data[col][j]
+			temp_sum += float(raw_data[col][j])
 		mean.append(float(temp_sum)/float(len(useful)))
 
 	#calculate
@@ -143,7 +143,7 @@ def cal_co_return(list_of_fund,ratio_of_fund,raw_data):
 	for i in range(data_num):
 		flag = 0
 		for col in list_of_fund:
-			print(col,i)
+			# print(col,i)
 			if raw_data[col][i] == 'x':
 				flag+=1
 
@@ -155,7 +155,7 @@ def cal_co_return(list_of_fund,ratio_of_fund,raw_data):
 	for col in list_of_fund:
 		temp_sum = 0
 		for j in useful:
-			temp_sum += raw_data[col][j]
+			temp_sum += float(raw_data[col][j])
 		mean.append(float(temp_sum)/float(len(useful)))
 
 	# calculate return
@@ -494,12 +494,12 @@ def portfolio_alloc(raw_data, candidate_list, candidate_pick_num, user_selectFun
         if min(weight_comb) > minimum_weight:
             new_weight_alloc_combs.append(weight_comb)
 
-    print(new_weight_alloc_combs)
+    # print(new_weight_alloc_combs)
     
     portfolio_alloc_list = []
     if len(new_weight_alloc_combs) > 0:
         for candidate_comb in candidate_combs: 
-            print(candidate_comb)
+            # print(candidate_comb)
             for weight_alloc_comb in new_weight_alloc_combs:
                 new_return_list = []
                 weight_alloc_comb_perms = set(list(permutations(weight_alloc_comb)))
