@@ -68,6 +68,7 @@ def readcsv(csv_name,start,end,CD_NUMBER):
 
     #create dictionary for dataframe
     date_to_dict ={}
+    label_to_name_dict = {}
 
     fp = open(csv_name,'r', encoding='big5')
     flag = skip_row_num
@@ -95,6 +96,8 @@ def readcsv(csv_name,start,end,CD_NUMBER):
 
             temp_dict = {item[2]:temp_list}
             date_to_dict.update(temp_dict)
+            name_list = str.split(item[0])
+            label_to_name_dict[item[2]] = name_list[1]
 
         else:
             try:
@@ -108,8 +111,7 @@ def readcsv(csv_name,start,end,CD_NUMBER):
 
     #create dataframe
     df = pd.DataFrame.from_dict(date_to_dict)
-    return  df
-
+    return  df, label_to_name_dict
 
 def get_closedfunds(closedfund_csv, df_nav):
     
@@ -145,9 +147,12 @@ def readcsv_preproc(fundnav_csv, closedfund_csv, start, end, CD_NUMBER):
     nav_change_fieldIndex = 5
     x_existRate = 0.2
     
-    df = readcsv(fundnav_csv,start,end,CD_NUMBER)
+    df, label2name_dict = readcsv(fundnav_csv,start,end,CD_NUMBER)
     closed_funds = get_closedfunds(closedfund_csv, df)
     df = df.drop(columns=closed_funds)
+
+    for closed_fund in closed_funds:
+        label2name_dict.pop(closed_fund)
     
     drop_funds = []
     n = len(df[df.columns[0]])
@@ -156,8 +161,12 @@ def readcsv_preproc(fundnav_csv, closedfund_csv, start, end, CD_NUMBER):
             drop_funds.append(col)
     
     df = df.drop(columns=drop_funds)
-    
-    return df
+
+    for drop_fund in drop_funds:
+        label2name_dict.pop(drop_fund)
+
+    return df, label2name_dict
+
 
 def read_df(csv_filename):
     df_cor = pd.read_csv(csv_filename)
