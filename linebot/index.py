@@ -8,8 +8,8 @@ import json
 
 app = Flask(__name__)
 
-TOKEN = "VC1ihEHhI//r5rj2lG72+pq3fdcIF8kYqZBfCcaW31EBAkbJKjxGzjm7RNKvBxfTOmJrAuFNOmfhq7H+8Z6ppcr1+R2i0jO1jUAJEOiMGxwI/GufeFet36k9GMV2zjUfsw7WNloFDMztrhbTfwBlXAdB04t89/1O/w1cDnyilFU="
-SECRET = "0df90a6ae6ae1d03087878bde6075189"
+TOKEN = ""
+SECRET = ""
 LIMIT_FUNDS_NUM = 3
 LIMIT_FUNDS_RATIO = 0.3
 
