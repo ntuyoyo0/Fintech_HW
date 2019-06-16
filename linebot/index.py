@@ -19,7 +19,7 @@ handler = WebhookHandler(SECRET)
 
 @app.route("/")
 def index():
-    return "Hello World!"
+    return ""
 
 @app.route("/callback", methods=['POST'])
 def callback():
